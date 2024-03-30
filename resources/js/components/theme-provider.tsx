@@ -48,6 +48,17 @@ export function ThemeProvider({
         root.classList.add(theme)
     }, [theme])
 
+    useEffect(() => {
+        //listen for changes to the theme
+        const listener = (event: MediaQueryListEvent) => {
+            setTheme(event.matches ? "dark" : "light")
+        }
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", listener)
+        return () => {
+            window.matchMedia("(prefers-color-scheme: dark)").removeEventListener("change", listener)
+        }
+    }, [theme]);
+
     const value = {
         theme,
         setTheme: (theme: Theme) => {

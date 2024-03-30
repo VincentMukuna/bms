@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react';
 
 export default function Guest({ children }: PropsWithChildren) {
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen flex flex-col justify-center items-center">
             {children}
         </div>
     );
