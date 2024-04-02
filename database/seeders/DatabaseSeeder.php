@@ -17,7 +17,12 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'test@localhost.com',
         ]);
+
+        //seed 1 campaign
+        \App\Models\Campaign::factory()
+            ->has(\App\Models\Billboard::factory()->count(10))
+            ->create();
     }
 }

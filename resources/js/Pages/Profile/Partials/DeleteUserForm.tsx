@@ -1,11 +1,22 @@
-import { useRef, useState, FormEventHandler } from 'react';
-import DangerButton from '@/components/DangerButton';
+import {FormEventHandler, Suspense, useRef, useState} from 'react';
 import InputError from '@/components/InputError';
-import InputLabel from '@/components/InputLabel';
-import Modal from '@/components/Modal';
-import SecondaryButton from '@/components/SecondaryButton';
-import TextInput from '@/components/TextInput';
-import { useForm } from '@inertiajs/react';
+import {useForm} from '@inertiajs/react';
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {cn} from "@/lib/utils";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
 
 export default function DeleteUserForm({ className = '' }: { className?: string }) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
@@ -44,33 +55,36 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
     };
 
     return (
-        <section className={`space-y-6 ${className}`}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</h2>
-
-                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <Card className={cn(``, className)}>
+            <CardHeader>
+                <CardTitle className="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</CardTitle>
+                <CardDescription className="mt-1 text-sm text-gray-600 dark:text-gray-400 max-w-xl">
                     Once your account is deleted, all of its resources and data will be permanently deleted. Before
                     deleting your account, please download any data or information that you wish to retain.
-                </p>
-            </header>
+                </CardDescription>
+            </CardHeader>
+            <CardContent >
+                <AlertDialog
+                    open={confirmingUserDeletion}
+                    onOpenChange={(open)=>{
+                       setConfirmingUserDeletion(open)
+                    }}
 
-            <DangerButton onClick={confirmUserDeletion}>Delete Account</DangerButton>
+                >
+                    <AlertDialogTrigger asChild>
+                        <Button variant="destructive">Delete Account</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className={'max-w-xl'}>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle> Are you sure you want to delete your account?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Once your account is deleted, all of its resources and data will be permanently deleted. Please
+                                enter your password to confirm you would like to permanently delete your account.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <Label htmlFor="password" className={'sr-only'}>Password</Label>
 
-            <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <form onSubmit={deleteUser} className="p-6">
-                    <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        Are you sure you want to delete your account?
-                    </h2>
-
-                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        Once your account is deleted, all of its resources and data will be permanently deleted. Please
-                        enter your password to confirm you would like to permanently delete your account.
-                    </p>
-
-                    <div className="mt-6">
-                        <InputLabel htmlFor="password" value="Password" className="sr-only" />
-
-                        <TextInput
+                        <Input
                             id="password"
                             type="password"
                             name="password"
@@ -78,22 +92,18 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             className="mt-1 block w-3/4"
-                            isFocused
+                            autoFocus={true}
                             placeholder="Password"
                         />
 
                         <InputError message={errors.password} className="mt-2" />
-                    </div>
-
-                    <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>Cancel</SecondaryButton>
-
-                        <DangerButton className="ms-3" disabled={processing}>
-                            Delete Account
-                        </DangerButton>
-                    </div>
-                </form>
-            </Modal>
-        </section>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={deleteUser}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </CardContent>
+        </Card>
     );
 }

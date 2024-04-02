@@ -1,128 +1,174 @@
-import { useState, PropsWithChildren, ReactNode } from 'react';
-import ApplicationLogo from '@/components/ApplicationLogo';
-import Dropdown from '@/components/Dropdown';
-import NavLink from '@/components/NavLink';
-import ResponsiveNavLink from '@/components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
-import { User } from '@/types';
+import {
+    Home, LineChart, LogOut, LogOutIcon, Package, Package2, Search, Settings, ShoppingCart, Users2,
+} from "lucide-react"
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Button } from "@/components/ui/button"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {Link} from "@inertiajs/react";
+import MobileNav from "@/components/mobile-nav";
+import React, {PropsWithChildren} from "react";
+import {DropdownMenuIcon} from "@radix-ui/react-icons";
 
-export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+interface DashboardProps extends PropsWithChildren{
+    header?: React.ReactNode
+    user?: any
+}
+export default function Dashboard({children}:DashboardProps) {
+    const navbarLinks = [
+        {
+            title: "Dashboard",
+            href: "dashboard",
+            icon: Home,
+        },
+        {
+            title: "Orders",
+            href: "#",
+            icon: ShoppingCart,
+        },
+        {
+            title: "Products",
+            href: "#",
+            icon: Package,
+        },
+        {
+            title: "Customers",
+            href: "#",
+            icon: Users2,
+        },
+        {
+            title: "Analytics",
+            href: "#",
+            icon: LineChart,
+        },
+    ]
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                                </Link>
-                            </div>
+        <div className="flex min-h-screen w-full flex-col bg-muted/40  ">
+            <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+                <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+                    <Link
+                        href="#"
+                        className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+                    >
+                        <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
+                        <span className="sr-only">Acme Inc</span>
+                    </Link>
+                    {
+                        navbarLinks.map((link, index) => (
+                            <Tooltip key={index}>
+                                <TooltipTrigger asChild>
+                                    <Link
+                                        href={link.href}
+                                        className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                                    >
+                                        <link.icon className="h-5 w-5" />
+                                        <span className="sr-only">{link.title}</span>
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">{link.title}</TooltipContent>
+                            </Tooltip>
+                        ))
+                    }
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
-                            <div className="ms-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {user.name}
-
-                                                <svg
-                                                    className="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-me-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
+                </nav>
+                <nav className={'mt-auto self-center mb-4'}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Link
+                                href="#"
+                                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                             >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
+                                <Settings className="h-5 w-5" />
+                                <span className="sr-only">Settings</span>
+                            </Link>
+                        </TooltipTrigger>
+                        <TooltipContent side="right">Settings</TooltipContent>
+                    </Tooltip>
+                </nav>
+            </aside>
+            <div className="flex flex-col sm:gap-4 sm:pl-14 grow bg-gray-50 dark:bg-background">
+                <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 py-3 sm:static sm:h-auto sm:border-0 sm:bg-muted/40 sm:px-6">
+                    <MobileNav />
+                    <Breadcrumb className="hidden md:flex">
+                        <BreadcrumbList>
+                            <BreadcrumbItem>
+                                <BreadcrumbLink asChild>
+                                    <Link href="#">Dashboard</Link>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbLink asChild>
+                                    <Link href="#">Orders</Link>
+                                </BreadcrumbLink>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbPage>Recent Orders</BreadcrumbPage>
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumb>
+                    <div className="relative ml-auto flex-1 md:grow-0">
+                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                        <Input
+                            type="search"
+                            placeholder="Search..."
+                            className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+                        />
                     </div>
-                </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="overflow-hidden rounded-full"
+                            >
+                                <img
+                                    src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=36&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D"
+                                    width={36}
+                                    height={36}
+                                    alt="Avatar"
+                                    className="overflow-hidden"
+                                />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem >
+                                <Link href={route('profile.edit')}>Profile</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem >
+                                <Link as={'button'} href={route('logout')} method={'post'}>Logout</Link>
+                            </DropdownMenuItem>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800 dark:text-gray-200">
-                                {user.name}
-                            </div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {header && (
-                <header className="bg-white dark:bg-gray-800 shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </header>
-            )}
-
-            <main>{children}</main>
+                <main className={'grow sm:gap-4 px-2  '}>
+                    {children}
+                </main>
+            </div>
         </div>
-    );
+    )
 }

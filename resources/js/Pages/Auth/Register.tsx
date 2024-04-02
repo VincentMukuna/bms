@@ -1,7 +1,6 @@
 import { useEffect, FormEventHandler } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
@@ -30,15 +29,21 @@ export default function Register() {
     return (
         <GuestLayout >
             <Head title="Register"/>
-            <div className="w-full lg:grid lg:min-h-[600px] flex flex-col items-center justify-center  ">
-            <Card className="mx-auto max-w-sm z-10">
-                <CardHeader>
-                    <CardTitle className="text-xl">Sign Up</CardTitle>
-                    <CardDescription>
-                        Enter your information to create an account
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
+            <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 items-center ">
+                <div className="hidden bg-muted lg:block h-screen">
+                    <img
+                        src="/images/empty2-unsplash.jpg"
+                        alt="Image"
+                        className=" object-cover w-full h-full"
+                    />
+                </div>
+                <div className="mx-auto grid w-[350px] gap-6 ">
+                    <div className="grid text-center">
+                        <h1 className="text-3xl font-bold">Sign Up</h1>
+                        <p className="text-balance text-muted-foreground">
+                            Enter your information to create an account
+                        </p>
+                    </div>
                     <form onSubmit={submit} className="grid gap-4">
                         <div className="grid gap-2">
                             <Label htmlFor="name">Name</Label>
@@ -50,7 +55,7 @@ export default function Register() {
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
                             />
-                            <InputError message={errors.name} />
+                            <InputError message={errors.name}/>
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
@@ -73,7 +78,7 @@ export default function Register() {
                                 value={data.password}
                                 onChange={(e) => setData('password', e.target.value)}
                             />
-                            <InputError message={errors.password} />
+                            <InputError message={errors.password}/>
                         </div>
                         <div className="grid gap-2">
                             <Label htmlFor="password-confirmation">Confirm password</Label>
@@ -84,7 +89,7 @@ export default function Register() {
                                 value={data.password_confirmation}
                                 onChange={(e) => setData('password_confirmation', e.target.value)}
                             />
-                            <InputError message={errors.password_confirmation} />
+                            <InputError message={errors.password_confirmation}/>
                         </div>
                         <Button type="submit" className="w-full" disabled={processing}>
                             Create an account
@@ -96,93 +101,8 @@ export default function Register() {
                             Sign in
                         </Link>
                     </div>
-                </CardContent>
-            </Card>
+                </div>
 
             </div>
-
-            {/*<form onSubmit={submit}>*/}
-            {/*    <div>*/}
-            {/*        <InputLabel htmlFor="name" value="Name" />*/}
-
-            {/*        <TextInput*/}
-            {/*            id="name"*/}
-            {/*            name="name"*/}
-            {/*            value={data.name}*/}
-            {/*            className="mt-1 block w-full"*/}
-            {/*            autoComplete="name"*/}
-            {/*            isFocused={true}*/}
-            {/*            onChange={(e) => setData('name', e.target.value)}*/}
-            {/*            required*/}
-            {/*        />*/}
-
-            {/*        <InputError message={errors.name} className="mt-2" />*/}
-            {/*    </div>*/}
-
-            {/*    <div className="mt-4">*/}
-            {/*        <InputLabel htmlFor="email" value="Email" />*/}
-
-            {/*        <TextInput*/}
-            {/*            id="email"*/}
-            {/*            type="email"*/}
-            {/*            name="email"*/}
-            {/*            value={data.email}*/}
-            {/*            className="mt-1 block w-full"*/}
-            {/*            autoComplete="username"*/}
-            {/*            onChange={(e) => setData('email', e.target.value)}*/}
-            {/*            required*/}
-            {/*        />*/}
-
-            {/*        <InputError message={errors.email} className="mt-2" />*/}
-            {/*    </div>*/}
-
-            {/*    <div className="mt-4">*/}
-            {/*        <InputLabel htmlFor="password" value="Password" />*/}
-
-            {/*        <TextInput*/}
-            {/*            id="password"*/}
-            {/*            type="password"*/}
-            {/*            name="password"*/}
-            {/*            value={data.password}*/}
-            {/*            className="mt-1 block w-full"*/}
-            {/*            autoComplete="new-password"*/}
-            {/*            onChange={(e) => setData('password', e.target.value)}*/}
-            {/*            required*/}
-            {/*        />*/}
-
-            {/*        <InputError message={errors.password} className="mt-2" />*/}
-            {/*    </div>*/}
-
-            {/*    <div className="mt-4">*/}
-            {/*        <InputLabel htmlFor="password_confirmation" value="Confirm Password" />*/}
-
-            {/*        <TextInput*/}
-            {/*            id="password_confirmation"*/}
-            {/*            type="password"*/}
-            {/*            name="password_confirmation"*/}
-            {/*            value={data.password_confirmation}*/}
-            {/*            className="mt-1 block w-full"*/}
-            {/*            autoComplete="new-password"*/}
-            {/*            onChange={(e) => setData('password_confirmation', e.target.value)}*/}
-            {/*            required*/}
-            {/*        />*/}
-
-            {/*        <InputError message={errors.password_confirmation} className="mt-2" />*/}
-            {/*    </div>*/}
-
-            {/*    <div className="flex items-center justify-end mt-4">*/}
-            {/*        <Link*/}
-            {/*            href={route('login')}*/}
-            {/*            className="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"*/}
-            {/*        >*/}
-            {/*            Already registered?*/}
-            {/*        </Link>*/}
-
-            {/*        <PrimaryButton className="ms-4" disabled={processing}>*/}
-            {/*            Register*/}
-            {/*        </PrimaryButton>*/}
-            {/*    </div>*/}
-            {/*</form>*/}
-    </GuestLayout>
-);
+        </GuestLayout>);
 }

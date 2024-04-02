@@ -7,6 +7,7 @@ import {Head, Link, useForm} from "@inertiajs/react";
 import {FormEventHandler, useEffect} from "react";
 import {Checkbox} from "@/components/ui/checkbox";
 import Guest from "@/Layouts/GuestLayout";
+import InputError from "@/components/InputError";
 
 export default function Login({ status, canResetPassword }: { status?: string, canResetPassword: boolean }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -47,11 +48,13 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                     type="email"
                                     name={'email'}
                                     placeholder="m@example.com"
+                                    autoComplete={'username'}
                                     value={data.email}
                                     required
                                     autoFocus
                                     onChange={(e) => setData('email', e.target.value)}
                                 />
+                                <InputError message={errors.email} />
                             </div>
                             <div className="grid gap-2">
                                 <div className="flex items-center">
@@ -63,8 +66,15 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                         Forgot your password?
                                     </Link>}
                                 </div>
-                                <Input id="password" type="password" name={'password'} required value={data.password}
-                                       onChange={(e) => setData('password', e.target.value)}/>
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    name={'password'}
+                                    autoComplete={'current-password'}
+                                    required
+                                    value={data.password}
+                                    onChange={(e) => setData('password', e.target.value)}/>
+                                <InputError message={errors.password} />
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="remember" checked={data.remember}
@@ -76,7 +86,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                     Remember me
                                 </Label>
                             </div>
-                            <Button type="submit" className="w-full" disabled={processing}>
+                            <Button type="submit" className="w-full" disabled={processing} >
                                 Login
                             </Button>
                         </div>
