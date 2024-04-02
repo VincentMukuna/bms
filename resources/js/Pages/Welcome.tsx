@@ -1,12 +1,11 @@
 import {Head, Link} from '@inertiajs/react';
-import { PageProps } from '@/types';
 import Guest from "@/Layouts/GuestLayout";
-import {Button, buttonVariants} from "@/components/ui/button";
+import { buttonVariants} from "@/components/ui/button";
 import {Spotlight} from "@/components/Spotlight";
-import TypewriterEffect, {TypewriterEffectSmooth} from "@/components/typewriter-effect";
+import {TypewriterEffectSmooth} from "@/components/typewriter-effect";
 import {cn} from "@/lib/utils";
-import {ArrowRight, ArrowRightCircle} from "lucide-react";
-export default function Welcome({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>) {
+import {ArrowRight} from "lucide-react";
+export default function Welcome() {
 
     const words = [
         {

@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import {Billboard, PageProps} from '@/types';
 import {Card} from "@/components/ui/card";
-import {ColumnDef, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {ColumnDef,} from "@tanstack/react-table";
 import {DataTable} from "@/components/ui/data-table";
 interface DashboardProps extends PageProps {
     billboards: Billboard[];
@@ -60,7 +60,7 @@ export default function Dashboard({ auth, billboards }: DashboardProps) {
             <div className="py-4 space-y-6 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto ">
                     <Card>
-                        <div className="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
+                        <div className="p-6 text-gray-900 dark:text-gray-100">You&apos;re logged in!</div>
                     </Card>
                 </div>
                 <div className={'grid md:grid-cols-2 '}>

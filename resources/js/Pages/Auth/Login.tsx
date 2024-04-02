@@ -51,7 +51,6 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                     autoComplete={'username'}
                                     value={data.email}
                                     required
-                                    autoFocus
                                     onChange={(e) => setData('email', e.target.value)}
                                 />
                                 <InputError message={errors.email} />
@@ -101,8 +100,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                 <div className="hidden bg-muted lg:block h-screen">
                     <img
                         src="/images/billboard-login.jpg"
-                        alt="Image"
-
+                        alt="bluish billboard as viewed from below"
                         className=" object-cover w-full h-full"
                     />
                 </div>

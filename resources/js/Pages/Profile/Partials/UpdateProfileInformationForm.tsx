@@ -27,7 +27,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             <CardTitle className="text-lg font-medium text-gray-900 dark:text-gray-100">Profile Information</CardTitle>
 
             <CardDescription className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Update your account's profile information and email address.
+                Update your account&apos;s profile information and email address.
             </CardDescription>
         </CardHeader>
         <form onSubmit={submit}>
@@ -42,7 +42,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
-                        autoFocus
                         autoComplete="name"
                     />
 

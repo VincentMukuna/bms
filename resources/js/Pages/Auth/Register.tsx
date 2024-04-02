@@ -33,7 +33,7 @@ export default function Register() {
                 <div className="hidden bg-muted lg:block h-screen">
                     <img
                         src="/images/empty2-unsplash.jpg"
-                        alt="Image"
+                        alt="empty billboard"
                         className=" object-cover w-full h-full"
                     />
                 </div>

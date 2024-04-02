@@ -1,4 +1,4 @@
-import {FormEventHandler, Suspense, useRef, useState} from 'react';
+import {FormEventHandler, useRef, useState} from 'react';
 import InputError from '@/components/InputError';
 import {useForm} from '@inertiajs/react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
@@ -26,16 +26,12 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
         data,
         setData,
         delete: destroy,
-        processing,
         reset,
         errors,
     } = useForm({
         password: '',
     });
 
-    const confirmUserDeletion = () => {
-        setConfirmingUserDeletion(true);
-    };
 
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
@@ -92,7 +88,6 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
                             className="mt-1 block w-3/4"
-                            autoFocus={true}
                             placeholder="Password"
                         />
 

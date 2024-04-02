@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "tsc && vite build"
+        "build": "tsc && vite build",
+        "lint": "eslint resources/js --ext .ts,.tsx"
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
@@ -42,6 +43,7 @@
         "@tanstack/react-table": "^8.15.3",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.0",
+        "eslint-plugin-jsx-a11y": "^6.8.0",
         "framer-motion": "^11.0.24",
         "lucide-react": "^0.363.0",
         "mini-svg-data-uri": "^1.4.4",

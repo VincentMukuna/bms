@@ -1,5 +1,5 @@
 import {
-    Home, LineChart, LogOut, LogOutIcon, Package, Package2, Search, Settings, ShoppingCart, Users2,
+    Home, LineChart, Package, Package2, Search, Settings, ShoppingCart, Users2,
 } from "lucide-react"
 import {
     Breadcrumb,
@@ -12,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
-    DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
@@ -28,11 +27,11 @@ import {
 import {Link} from "@inertiajs/react";
 import MobileNav from "@/components/mobile-nav";
 import React, {PropsWithChildren} from "react";
-import {DropdownMenuIcon} from "@radix-ui/react-icons";
+import {User} from "@/types";
 
 interface DashboardProps extends PropsWithChildren{
     header?: React.ReactNode
-    user?: any
+    user?: User
 }
 export default function Dashboard({children}:DashboardProps) {
     const navbarLinks = [
