@@ -14,9 +14,8 @@ class BillboardFactory extends Factory
         return [
             'image_url' => $this->faker->imageUrl(),
             'daily_rate' => $this->faker->randomFloat(0, 1000, 500000),
-            //latitude and longitude are the coordinates of the billboard within Nairobi
-            'latitude' => $this->faker->randomFloat(8, -1.300, -1.100),
-            'longitude' => $this->faker->randomFloat(8, 36.7000, 37.1219),
+            'latitude' => $this->faker->randomFloat(8, -1.246389, -1.392066),
+            'longitude' => $this->faker->randomFloat(8, 36.621946, 37.028193),
             'size' => $this->faker->randomElement(['small', 'medium', 'large']),
             'type' => $this->faker->randomElement(['digital', 'static', 'mobile']),
         ];

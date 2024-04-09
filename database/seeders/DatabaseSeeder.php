@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         //seed 1 campaign
         \App\Models\Campaign::factory()
-            ->has(\App\Models\Billboard::factory()->count(10))
+            ->has(\App\Models\Billboard::factory()->count(100))
             ->create();
     }
 }

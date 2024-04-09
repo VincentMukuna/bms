@@ -27,7 +27,7 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout >
+        <>
             <Head title="Register"/>
             <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 items-center ">
                 <div className="hidden bg-muted lg:block h-screen">
@@ -104,5 +104,7 @@ export default function Register() {
                 </div>
 
             </div>
-        </GuestLayout>);
+        </>);
 }
+
+Register.layout = (page: any)=> <GuestLayout children={page} />;

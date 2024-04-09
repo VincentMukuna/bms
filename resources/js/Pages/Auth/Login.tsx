@@ -28,7 +28,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
         post(route('login'));
     };
     return (
-        <Guest>
+        <>
             <Head title="Log in"/>
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
             <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 ">
@@ -105,7 +105,8 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                     />
                 </div>
             </div>
-        </Guest>
-
+        </>
     )
 }
+
+Login.layout = (page: any) => <Guest children={page}/>;

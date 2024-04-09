@@ -23,7 +23,7 @@ export default function Welcome() {
         },
     ];
 
-    return (<Guest>
+    return (<>
         <Head title="Welcome"/>
         <Spotlight
             className="-top-40 left-0 md:left-60 md:-top-40"
@@ -54,5 +54,7 @@ export default function Welcome() {
 
         </div>
 
-    </Guest>);
+    </>);
 }
+
+Welcome.layout = (page: any) => <Guest children={page}/>;
