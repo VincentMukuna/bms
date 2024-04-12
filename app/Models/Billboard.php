@@ -27,7 +27,7 @@ class Billboard extends Model
     public function casts(): array
     {
         return [
-            'size'=> \App\Enums\Size::class,
+            'size'=> \App\Enums\BillboardSize::class,
             'type'=> \App\Enums\BillboardType::class,
         ];
 

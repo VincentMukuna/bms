@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('image_url', 255);
+            $table->string('address', 255);
+            $table->string('county', 255);
+            $table->string('description', 1000);
             $table->decimal('daily_rate', 8,2);
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
@@ -24,7 +27,6 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();
-
         });
     }
 

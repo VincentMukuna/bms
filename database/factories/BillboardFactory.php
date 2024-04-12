@@ -13,6 +13,9 @@ class BillboardFactory extends Factory
     {
         return [
             'image_url' => $this->faker->imageUrl(),
+            'address'=> $this->faker->address,
+            'description'=> $this->faker->sentence,
+            'county' => $this->faker->city,
             'daily_rate' => $this->faker->randomFloat(0, 1000, 500000),
             'latitude' => $this->faker->randomFloat(8, -1.246389, -1.392066),
             'longitude' => $this->faker->randomFloat(8, 36.621946, 37.028193),

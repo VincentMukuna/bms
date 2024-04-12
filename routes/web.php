@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::resource('billboard', \App\Http\Controllers\BillboardController::class)
-    ->only(['index', 'store', 'update', 'destroy'])
+    ->only(['index', 'store', 'update', 'destroy', 'create', 'edit'])
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

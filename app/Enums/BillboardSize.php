@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum Size: string
+enum BillboardSize: string
 {
     case Small = 'small';
     case Medium = 'medium';

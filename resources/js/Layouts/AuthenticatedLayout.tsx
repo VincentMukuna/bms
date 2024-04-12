@@ -1,25 +1,37 @@
 import {
-    Home, LineChart, Package, Package2, Search, Settings, ShoppingCart, Users2,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
-import {Link} from "@inertiajs/react";
+    Home,
+    LineChart,
+    Package,
+    Package2,
+    Search,
+    Settings,
+    ShoppingCart,
+    Users2,
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Link } from "@inertiajs/react";
 import MobileNav from "@/components/mobile-nav";
-import React, {PropsWithChildren, ReactNode, useEffect} from "react";
-import {PageProps, User} from "@/types";
+import React, { PropsWithChildren, ReactNode, useEffect } from "react";
+import { PageProps, User } from "@/types";
 import Navbar from "@/components/navbar";
 import AppBreadcrumbList from "@/components/AppBreadcrumbList";
 import ColorModeToggle from "@/components/color-mode-toggle";
+import usePathname from "@/lib/hooks/usePathname";
+import UserProfileButton from "@/components/userProfileButton";
 
-export interface AuthenticatedLayoutProps{
-    header?: React.ReactNode
-    user?: User
-    children: ReactNode
+export interface AuthenticatedLayoutProps {
+    header?: React.ReactNode;
+    user?: User;
+    children: ReactNode;
 }
-export default function AuthenticatedLayout({children, user}:AuthenticatedLayoutProps) {
+export default function AuthenticatedLayout({
+    children,
+    user,
+}: AuthenticatedLayoutProps) {
     return (
         <div className="flex min-h-screen w-full flex-col bg-muted/40  ">
-            <Navbar/>
-           <div className="flex flex-col sm:gap-4 sm:pl-[180px] grow bg-gray-50 dark:bg-background">
+            <Navbar />
+            <div className="flex grow flex-col bg-gray-50 dark:bg-background sm:gap-4 sm:pl-[180px]">
                 <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 py-3 sm:static sm:h-auto sm:border-0 sm:bg-muted/40 sm:px-6">
                     <MobileNav />
                     <AppBreadcrumbList />
@@ -32,11 +44,12 @@ export default function AuthenticatedLayout({children, user}:AuthenticatedLayout
                         />
                     </div>
                     <ColorModeToggle />
+                    <UserProfileButton />
                 </header>
-                <main className={'grow sm:gap-4 px-2 py-4  '}>
+                <main className={"grow px-2 py-4 sm:gap-4 lg:px-8"}>
                     {children}
                 </main>
             </div>
         </div>
-    )
+    );
 }

@@ -1,18 +1,27 @@
-import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
-import {Button} from "@/components/ui/button";
-import {Home, LineChart, Package, Package2, PanelLeft, ShoppingCart, Users2} from "lucide-react";
-import {Link} from "@inertiajs/react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import {
+    Home,
+    LineChart,
+    Package,
+    Package2,
+    PanelLeft,
+    ShoppingCart,
+    Users2,
+} from "lucide-react";
+import { Link } from "@inertiajs/react";
+import navbarLinks from "@/data/navbarLinks";
 
-export default function MobileNav(){
-    return(
-        <Sheet >
+export default function MobileNav() {
+    return (
+        <Sheet>
             <SheetTrigger asChild>
                 <Button size="icon" variant="outline" className="sm:hidden">
                     <PanelLeft className="h-5 w-5" />
                     <span className="sr-only">Toggle Menu</span>
                 </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="sm:max-w-xs z-50">
+            <SheetContent side="left" className="z-50 sm:max-w-xs">
                 <nav className="grid gap-6 text-lg font-medium">
                     <Link
                         href="#"
@@ -21,37 +30,19 @@ export default function MobileNav(){
                         <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
                         <span className="sr-only">Acme Inc</span>
                     </Link>
+                    {navbarLinks.map((link, index) => (
+                        <Link
+                            key={index}
+                            href={link.href}
+                            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                        >
+                            <link.icon className="h-5 w-5" />
+                            {link.title}
+                        </Link>
+                    ))}
                     <Link
                         href="#"
-                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                    >
-                        <Home className="h-5 w-5" />
-                        Dashboard
-                    </Link>
-                    <Link
-                        href="#"
-                        className="flex items-center gap-4 px-2.5 text-foreground"
-                    >
-                        <ShoppingCart className="h-5 w-5" />
-                        Orders
-                    </Link>
-                    <Link
-                        href="#"
-                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                    >
-                        <Package className="h-5 w-5" />
-                        Products
-                    </Link>
-                    <Link
-                        href="#"
-                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                    >
-                        <Users2 className="h-5 w-5" />
-                        Customers
-                    </Link>
-                    <Link
-                        href="#"
-                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                        className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground "
                     >
                         <LineChart className="h-5 w-5" />
                         Settings
@@ -59,5 +50,5 @@ export default function MobileNav(){
                 </nav>
             </SheetContent>
         </Sheet>
-    )
+    );
 }

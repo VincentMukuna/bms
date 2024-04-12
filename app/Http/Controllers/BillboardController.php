@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BillboardSize;
+use App\Enums\BillboardType;
 use App\Models\Billboard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Inertia\Inertia;
+use Psy\Exception\DeprecatedException;
+use function PHPUnit\Framework\throwException;
 
 class BillboardController extends Controller
 {
@@ -25,7 +29,10 @@ class BillboardController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Billboard/Create', [
+            'billboard_sizes'=>BillboardSize::cases(),
+            'billboard_types'=>BillboardType::cases()
+        ]);
     }
 
     /**

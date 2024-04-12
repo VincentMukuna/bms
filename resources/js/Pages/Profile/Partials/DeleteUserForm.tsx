@@ -1,8 +1,14 @@
-import {FormEventHandler, useRef, useState} from 'react';
-import InputError from '@/components/InputError';
-import {useForm} from '@inertiajs/react';
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {cn} from "@/lib/utils";
+import { FormEventHandler, useRef, useState } from "react";
+import InputError from "@/components/InputError";
+import { useForm } from "@inertiajs/react";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -12,13 +18,17 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger
+    AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {Button} from "@/components/ui/button";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
-export default function DeleteUserForm({ className = '' }: { className?: string }) {
+export default function DeleteUserForm({
+    className = "",
+}: {
+    className?: string;
+}) {
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef<HTMLInputElement>(null);
 
@@ -29,14 +39,13 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
         reset,
         errors,
     } = useForm({
-        password: '',
+        password: "",
     });
-
 
     const deleteUser: FormEventHandler = (e) => {
         e.preventDefault();
 
-        destroy(route('profile.destroy'), {
+        destroy(route("profile.destroy"), {
             preserveScroll: true,
             onSuccess: () => closeModal(),
             onError: () => passwordInput.current?.focus(),
@@ -53,32 +62,42 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
     return (
         <Card className={cn(``, className)}>
             <CardHeader>
-                <CardTitle className="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</CardTitle>
-                <CardDescription className="mt-1 text-sm text-gray-600 dark:text-gray-400 max-w-xl">
-                    Once your account is deleted, all of its resources and data will be permanently deleted. Before
-                    deleting your account, please download any data or information that you wish to retain.
+                <CardTitle className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    Delete Account
+                </CardTitle>
+                <CardDescription className="mt-1 max-w-xl text-sm text-gray-600 dark:text-gray-400">
+                    Once your account is deleted, all of its resources and data
+                    will be permanently deleted. Before deleting your account,
+                    please download any data or information that you wish to
+                    retain.
                 </CardDescription>
             </CardHeader>
-            <CardContent >
+            <CardContent>
                 <AlertDialog
                     open={confirmingUserDeletion}
-                    onOpenChange={(open)=>{
-                       setConfirmingUserDeletion(open)
+                    onOpenChange={(open) => {
+                        setConfirmingUserDeletion(open);
                     }}
-
                 >
                     <AlertDialogTrigger asChild>
                         <Button variant="destructive">Delete Account</Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent className={'max-w-xl'}>
+                    <AlertDialogContent className={"max-w-xl"}>
                         <AlertDialogHeader>
-                            <AlertDialogTitle> Are you sure you want to delete your account?</AlertDialogTitle>
+                            <AlertDialogTitle>
+                                {" "}
+                                Are you sure you want to delete your account?
+                            </AlertDialogTitle>
                             <AlertDialogDescription>
-                                Once your account is deleted, all of its resources and data will be permanently deleted. Please
-                                enter your password to confirm you would like to permanently delete your account.
+                                Once your account is deleted, all of its
+                                resources and data will be permanently deleted.
+                                Please enter your password to confirm you would
+                                like to permanently delete your account.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
-                        <Label htmlFor="password" className={'sr-only'}>Password</Label>
+                        <Label htmlFor="password" className={"sr-only"}>
+                            Password
+                        </Label>
 
                         <Input
                             id="password"
@@ -86,15 +105,22 @@ export default function DeleteUserForm({ className = '' }: { className?: string 
                             name="password"
                             ref={passwordInput}
                             value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
+                            onChange={(e) =>
+                                setData("password", e.target.value)
+                            }
                             className="mt-1 block w-3/4"
                             placeholder="Password"
                         />
 
-                        <InputError message={errors.password} className="mt-2" />
+                        <InputError
+                            message={errors.password}
+                            className="mt-2"
+                        />
                         <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={deleteUser}>Continue</AlertDialogAction>
+                            <AlertDialogAction onClick={deleteUser}>
+                                Continue
+                            </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>

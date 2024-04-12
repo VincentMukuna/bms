@@ -1,254 +1,189 @@
-import {Billboard, PageProps} from "@/types";
-import {ColumnDef} from "@tanstack/react-table";
-import React, {useLayoutEffect} from "react";
-import {DataTable} from "@/components/ui/data-table";
-import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
-import {useAtom} from "jotai";
-import {updateBreadcrumbsAtom} from "@/components/AppBreadcrumbList";
+import { Billboard, PageProps } from "@/types";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/ui/data-table";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { useAtom } from "jotai";
+import { updateBreadcrumbsAtom } from "@/components/AppBreadcrumbList";
 import useUpdateBreadcrumbs from "@/lib/hooks/useUpdateBreadcrumbs.ts";
-
-interface BillboardPageProps extends PageProps{
+import SelectedBillboardDetails from "@/Pages/Billboard/Partials/SelectedBillboardDetails";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { ArrowRight, ArrowUpDown, MoreVertical, Plus } from "lucide-react";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import { Checkbox } from "@/components/ui/checkbox";
+import React from "react";
+import { Link } from "@inertiajs/react";
+import { cn } from "@/lib/utils";
+interface BillboardPageProps extends PageProps {
     billboards: Billboard[];
 }
 
-const columns:ColumnDef<Billboard>[]=[
+const columns: ColumnDef<Billboard>[] = [
     {
-        accessorKey:'id',
-        header:'ID',
-    },
-    {
-        accessorKey:'image_url',
-        header:'Image',
-        cell:({getValue,})=>(
-            <img src={getValue() as string} alt="billboard" className="aspect-square w-8 object-cover rounded-lg"/>
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
+                aria-label="Select all"
+            />
         ),
-
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
     },
     {
-        accessorKey:'daily_rate',
-        header: () => <div className="text-right">Daily Rate</div>,
+        accessorKey: "id",
+        header: "ID",
+    },
+    {
+        accessorKey: "image_url",
+        header: "Image",
+        cell: ({ getValue }) => (
+            <img
+                src={getValue() as string}
+                alt="billboard"
+                className="aspect-square w-8 rounded-lg object-cover"
+            />
+        ),
+    },
+    {
+        accessorKey: "daily_rate",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                    className="ml-auto"
+                >
+                    Daily Rate
+                    <CaretSortIcon className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("daily_rate"))
+            const amount = parseFloat(row.getValue("daily_rate"));
             const formatted = new Intl.NumberFormat("en-KE", {
                 style: "currency",
                 currency: "KES",
                 maximumFractionDigits: 0,
-            }).format(amount)
+            }).format(amount);
 
-            return <div className="text-right font-medium">{formatted}</div>
+            return <div className="font-medium">{formatted}</div>;
         },
     },
     {
-        accessorKey:'size',
-        header:'Size',
+        accessorKey: "size",
+        header: "Size",
     },
     {
-        accessorKey:'type',
-        header:'Type',
-
+        accessorKey: "type",
+        header: "Type",
     },
-]
-
-export default function BillboardsPage({auth, billboards}: BillboardPageProps){
-
-        useUpdateBreadcrumbs([
-            {
-                title:"Home",
-                href:"dashboard"
-            },
-            {
-                title:"Billboards",
-                href:route('billboard.index')
-            }
-        ]);
-    return (
-        <div className={'grid grid-cols-1 lg:grid-cols-3 gap-4 items-start'}>
-            <Card className={' shadow-sm col-span-2'}>
-                <CardHeader>
-                    <CardTitle>Billboards</CardTitle>
-                    <CardDescription>View and Manage Billboards</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <DataTable columns={columns} data={billboards.slice(0,10)}/>
-                </CardContent>
-            </Card>
-            <SelectedBillboardCard />
-
-        </div>
-    )
-}
-
-import {
-    ChevronLeft,
-    ChevronRight,
-    Copy,
-    CreditCard,
-    MoreVertical,
-    Truck,
-} from "lucide-react"
-import {Button} from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import {Separator} from "@/components/ui/separator";
-import {Pagination, PaginationContent, PaginationItem} from "@/components/ui/pagination";
-
-function SelectedBillboardCard() {
-    return (
-        <Card className="overflow-hidden">
-            <CardHeader className="flex flex-row items-start bg-muted/50">
-                <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">
-                        Order Oe31b70H
-                        <Button
-                            size="icon"
-                            variant="outline"
-                            className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-                        >
-                            <Copy className="h-3 w-3" />
-                            <span className="sr-only">Copy Order ID</span>
+    {
+        id: "actions",
+        cell: ({ row }) => {
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button size="icon" variant="ghost" className="h-8 w-8">
+                            <MoreVertical className="h-4 w-4" />
+                            <span className="sr-only">More</span>
                         </Button>
-                    </CardTitle>
-                    <CardDescription>Date: November 23, 2023</CardDescription>
-                </div>
-                <div className="ml-auto flex items-center gap-1">
-                    <Button size="sm" variant="outline" className="h-8 gap-1">
-                        <Truck className="h-3.5 w-3.5" />
-                        <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-              Track Order
-            </span>
-                    </Button>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button size="icon" variant="outline" className="h-8 w-8">
-                                <MoreVertical className="h-3.5 w-3.5" />
-                                <span className="sr-only">More</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Export</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Trash</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                </div>
-            </CardHeader>
-            <CardContent className="p-6 text-sm">
-                <div className="grid gap-3">
-                    <div className="font-semibold">Order Details</div>
-                    <ul className="grid gap-3">
-                        <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                Glimmer Lamps x <span>2</span>
-              </span>
-                            <span>$250.00</span>
-                        </li>
-                        <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                Aqua Filters x <span>1</span>
-              </span>
-                            <span>$49.00</span>
-                        </li>
-                    </ul>
-                    <Separator className="my-2" />
-                    <ul className="grid gap-3">
-                        <li className="flex items-center justify-between">
-                            <span className="text-muted-foreground">Subtotal</span>
-                            <span>$299.00</span>
-                        </li>
-                        <li className="flex items-center justify-between">
-                            <span className="text-muted-foreground">Shipping</span>
-                            <span>$5.00</span>
-                        </li>
-                        <li className="flex items-center justify-between">
-                            <span className="text-muted-foreground">Tax</span>
-                            <span>$25.00</span>
-                        </li>
-                        <li className="flex items-center justify-between font-semibold">
-                            <span className="text-muted-foreground">Total</span>
-                            <span>$329.00</span>
-                        </li>
-                    </ul>
-                </div>
-                <Separator className="my-4" />
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-3">
-                        <div className="font-semibold">Shipping Information</div>
-                        <address className="grid gap-0.5 not-italic text-muted-foreground">
-                            <span>Liam Johnson</span>
-                            <span>1234 Main St.</span>
-                            <span>Anytown, CA 12345</span>
-                        </address>
-                    </div>
-                    <div className="grid auto-rows-max gap-3">
-                        <div className="font-semibold">Billing Information</div>
-                        <div className="text-muted-foreground">
-                            Same as shipping address
-                        </div>
-                    </div>
-                </div>
-                <Separator className="my-4" />
-                <div className="grid gap-3">
-                    <div className="font-semibold">Customer Information</div>
-                    <dl className="grid gap-3">
-                        <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Customer</dt>
-                            <dd>Liam Johnson</dd>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Email</dt>
-                            <dd>
-                                <a href="mailto:">liam@acme.com</a>
-                            </dd>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <dt className="text-muted-foreground">Phone</dt>
-                            <dd>
-                                <a href="tel:">+1 234 567 890</a>
-                            </dd>
-                        </div>
-                    </dl>
-                </div>
-                <Separator className="my-4" />
-                <div className="grid gap-3">
-                    <div className="font-semibold">Payment Information</div>
-                    <dl className="grid gap-3">
-                        <div className="flex items-center justify-between">
-                            <dt className="flex items-center gap-1 text-muted-foreground">
-                                <CreditCard className="h-4 w-4" />
-                                Visa
-                            </dt>
-                            <dd>**** **** **** 4532</dd>
-                        </div>
-                    </dl>
-                </div>
-            </CardContent>
-            <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-                <div className="text-xs text-muted-foreground">
-                    Updated <time dateTime="2023-11-23">November 23, 2023</time>
-                </div>
-                <Pagination className="ml-auto mr-0 w-auto">
-                    <PaginationContent>
-                        <PaginationItem>
-                            <Button size="icon" variant="outline" className="h-6 w-6">
-                                <ChevronLeft className="h-3.5 w-3.5" />
-                                <span className="sr-only">Previous Order</span>
-                            </Button>
-                        </PaginationItem>
-                        <PaginationItem>
-                            <Button size="icon" variant="outline" className="h-6 w-6">
-                                <ChevronRight className="h-3.5 w-3.5" />
-                                <span className="sr-only">Next Order</span>
-                            </Button>
-                        </PaginationItem>
-                    </PaginationContent>
-                </Pagination>
-            </CardFooter>
-        </Card>
-    )
-}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>Archive</DropdownMenuItem>
+                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
+];
 
+export default function BillboardsPage({
+    auth,
+    billboards,
+}: BillboardPageProps) {
+    useUpdateBreadcrumbs([
+        {
+            title: "Home",
+            href: "dashboard",
+        },
+        {
+            title: "Billboards",
+            href: route("billboard.index"),
+        },
+    ]);
+    return (
+        <div className={"grid grid-cols-1 items-start gap-4 lg:grid-cols-12"}>
+            <div className="col-span-8 grid gap-2">
+                <Card className="">
+                    <CardHeader className="pb-3">
+                        <CardTitle>Billboards</CardTitle>
+                        <CardDescription className="max-w-lg text-balance leading-relaxed">
+                            Billboard space for advertising your products and
+                            services.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardFooter>
+                        <Link
+                            href={route("billboard.create")}
+                            className={cn(
+                                buttonVariants(),
+                                "inline-flex gap-2",
+                            )}
+                        >
+                            <Plus className={"h-4 w-4"} />
+                            Create New Billboard
+                        </Link>
+                    </CardFooter>
+                </Card>
+                <Card className={" shadow-sm "}>
+                    <CardHeader>
+                        <CardTitle>Billboards</CardTitle>
+                        <CardDescription>
+                            View and Manage Billboards
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <DataTable
+                            columns={columns}
+                            data={billboards.slice(0, 10)}
+                        />
+                    </CardContent>
+                </Card>
+            </div>
+            <div className={"col-span-4"}>
+                <SelectedBillboardDetails />
+            </div>
+        </div>
+    );
+}

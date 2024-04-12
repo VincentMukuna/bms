@@ -14,11 +14,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": [
-        "@typescript-eslint",
-        "react",
-        "jsx-a11y"
-    ],
+    "plugins": ["@typescript-eslint", "react", "jsx-a11y"],
     "rules": {
         "react/prop-types": "off",
         "react/react-in-jsx-scope": "off",

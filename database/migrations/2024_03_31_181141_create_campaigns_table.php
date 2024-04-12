@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name', 255);
+            $table->string('objective', 1000);
             $table->date('start_date');
             $table->date('end_date');
             $table->decimal('budget', 8, 2);
